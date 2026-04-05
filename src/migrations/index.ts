@@ -3,6 +3,7 @@ import * as migration_20260403_094103_add_brands from './20260403_094103_add_bra
 import * as migration_20260403_101936_add_user_role from './20260403_101936_add_user_role';
 import * as migration_20260403_102734_add_categories from './20260403_102734_add_categories';
 import * as migration_20260403_145109_add_orders from './20260403_145109_add_orders';
+import * as migration_20260405_161703_add_about from './20260405_161703_add_about';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20260403_145109_add_orders.up,
     down: migration_20260403_145109_add_orders.down,
-    name: '20260403_145109_add_orders'
+    name: '20260403_145109_add_orders',
+  },
+  {
+    up: migration_20260405_161703_add_about.up,
+    down: migration_20260405_161703_add_about.down,
+    name: '20260405_161703_add_about'
   },
 ];
