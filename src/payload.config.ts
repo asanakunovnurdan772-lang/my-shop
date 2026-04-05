@@ -15,6 +15,7 @@ import { Delivery } from './globals/Delivery'
 import { TermsOfUse } from './globals/TermsOfUse'
 import { Store } from './globals/Store'
 import { Return } from './globals/Return'
+import { PrivacyPolicy } from './globals/PrivacyPolicy'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,6 +39,7 @@ export default buildConfig({
     TermsOfUse,
     Store,
     Return,
+    PrivacyPolicy,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

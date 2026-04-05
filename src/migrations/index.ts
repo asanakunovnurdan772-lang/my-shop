@@ -7,6 +7,7 @@ import * as migration_20260405_161703_add_about from './20260405_161703_add_abou
 import * as migration_20260405_164325_add_termsofuse from './20260405_164325_add_termsofuse';
 import * as migration_20260405_164736_add_store from './20260405_164736_add_store';
 import * as migration_20260405_165048_add_return from './20260405_165048_add_return';
+import * as migration_20260405_165332_add_privacypolicy from './20260405_165332_add_privacypolicy';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20260405_165048_add_return.up,
     down: migration_20260405_165048_add_return.down,
-    name: '20260405_165048_add_return'
+    name: '20260405_165048_add_return',
+  },
+  {
+    up: migration_20260405_165332_add_privacypolicy.up,
+    down: migration_20260405_165332_add_privacypolicy.down,
+    name: '20260405_165332_add_privacypolicy'
   },
 ];
