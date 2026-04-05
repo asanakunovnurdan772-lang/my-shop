@@ -5,6 +5,7 @@ import * as migration_20260403_102734_add_categories from './20260403_102734_add
 import * as migration_20260403_145109_add_orders from './20260403_145109_add_orders';
 import * as migration_20260405_161703_add_about from './20260405_161703_add_about';
 import * as migration_20260405_164325_add_termsofuse from './20260405_164325_add_termsofuse';
+import * as migration_20260405_164736_add_store from './20260405_164736_add_store';
 
 export const migrations = [
   {
@@ -40,6 +41,11 @@ export const migrations = [
   {
     up: migration_20260405_164325_add_termsofuse.up,
     down: migration_20260405_164325_add_termsofuse.down,
-    name: '20260405_164325_add_termsofuse'
+    name: '20260405_164325_add_termsofuse',
+  },
+  {
+    up: migration_20260405_164736_add_store.up,
+    down: migration_20260405_164736_add_store.down,
+    name: '20260405_164736_add_store'
   },
 ];

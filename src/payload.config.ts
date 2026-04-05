@@ -13,6 +13,7 @@ import { Orders } from './collections/Orders'
 import { About } from './globals/About'
 import { Delivery } from './globals/Delivery'
 import { TermsOfUse } from './globals/TermsOfUse'
+import { Store } from './globals/Store'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,18 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Brands, Categories, Products, Orders, About, Delivery, TermsOfUse],
+  collections: [
+    Users,
+    Media,
+    Brands,
+    Categories,
+    Products,
+    Orders,
+    About,
+    Delivery,
+    TermsOfUse,
+    Store,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
