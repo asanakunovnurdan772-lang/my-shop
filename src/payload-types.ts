@@ -74,6 +74,7 @@ export interface Config {
     products: Product;
     orders: Order;
     about: About;
+    delivery: Delivery;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    delivery: DeliverySelect<false> | DeliverySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -267,6 +269,32 @@ export interface About {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "delivery".
+ */
+export interface Delivery {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -316,6 +344,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'about';
         value: number | About;
+      } | null)
+    | ({
+        relationTo: 'delivery';
+        value: number | Delivery;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -473,6 +505,17 @@ export interface AboutSelect<T extends boolean = true> {
   seoDescription?: T;
   content?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "delivery_select".
+ */
+export interface DeliverySelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
