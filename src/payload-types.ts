@@ -75,6 +75,7 @@ export interface Config {
     orders: Order;
     about: About;
     delivery: Delivery;
+    'terms-of-use': TermsOfUse;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     orders: OrdersSelect<false> | OrdersSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
     delivery: DeliverySelect<false> | DeliverySelect<true>;
+    'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -295,6 +297,32 @@ export interface Delivery {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-of-use".
+ */
+export interface TermsOfUse {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -348,6 +376,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'delivery';
         value: number | Delivery;
+      } | null)
+    | ({
+        relationTo: 'terms-of-use';
+        value: number | TermsOfUse;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -513,6 +545,17 @@ export interface AboutSelect<T extends boolean = true> {
  * via the `definition` "delivery_select".
  */
 export interface DeliverySelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-of-use_select".
+ */
+export interface TermsOfUseSelect<T extends boolean = true> {
   title?: T;
   seoDescription?: T;
   content?: T;
