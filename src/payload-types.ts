@@ -77,6 +77,7 @@ export interface Config {
     delivery: Delivery;
     'terms-of-use': TermsOfUse;
     store: Store;
+    return: Return;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     delivery: DeliverySelect<false> | DeliverySelect<true>;
     'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
     store: StoreSelect<false> | StoreSelect<true>;
+    return: ReturnSelect<false> | ReturnSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -347,6 +349,32 @@ export interface Store {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "return".
+ */
+export interface Return {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -408,6 +436,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'store';
         value: number | Store;
+      } | null)
+    | ({
+        relationTo: 'return';
+        value: number | Return;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -610,6 +642,17 @@ export interface StoreSelect<T extends boolean = true> {
       };
   logo?: T;
   heroImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "return_select".
+ */
+export interface ReturnSelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
