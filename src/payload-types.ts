@@ -79,6 +79,7 @@ export interface Config {
     store: Store;
     return: Return;
     'privacy-policy': PrivacyPolicy;
+    'featured-product-list': FeaturedProductList;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     store: StoreSelect<false> | StoreSelect<true>;
     return: ReturnSelect<false> | ReturnSelect<true>;
     'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
+    'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -403,6 +405,21 @@ export interface PrivacyPolicy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featured-product-list".
+ */
+export interface FeaturedProductList {
+  id: number;
+  products?:
+    | {
+        product?: (number | null) | Product;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -472,6 +489,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'privacy-policy';
         value: number | PrivacyPolicy;
+      } | null)
+    | ({
+        relationTo: 'featured-product-list';
+        value: number | FeaturedProductList;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -696,6 +717,20 @@ export interface PrivacyPolicySelect<T extends boolean = true> {
   title?: T;
   seoDescription?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featured-product-list_select".
+ */
+export interface FeaturedProductListSelect<T extends boolean = true> {
+  products?:
+    | T
+    | {
+        product?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

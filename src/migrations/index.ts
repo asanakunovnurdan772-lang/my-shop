@@ -8,6 +8,7 @@ import * as migration_20260405_164325_add_termsofuse from './20260405_164325_add
 import * as migration_20260405_164736_add_store from './20260405_164736_add_store';
 import * as migration_20260405_165048_add_return from './20260405_165048_add_return';
 import * as migration_20260405_165332_add_privacypolicy from './20260405_165332_add_privacypolicy';
+import * as migration_20260405_170140_add_featuredproductlist from './20260405_170140_add_featuredproductlist';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20260405_165332_add_privacypolicy.up,
     down: migration_20260405_165332_add_privacypolicy.down,
-    name: '20260405_165332_add_privacypolicy'
+    name: '20260405_165332_add_privacypolicy',
+  },
+  {
+    up: migration_20260405_170140_add_featuredproductlist.up,
+    down: migration_20260405_170140_add_featuredproductlist.down,
+    name: '20260405_170140_add_featuredproductlist'
   },
 ];
