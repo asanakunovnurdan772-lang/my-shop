@@ -14,6 +14,7 @@ import * as migration_20260406_090755_add_about from './20260406_090755_add_abou
 import * as migration_20260406_091031_add_store from './20260406_091031_add_store';
 import * as migration_20260406_091513_add_about from './20260406_091513_add_about';
 import * as migration_20260406_091849_add_delivery from './20260406_091849_add_delivery';
+import * as migration_20260406_092332_add_return from './20260406_092332_add_return';
 
 export const migrations = [
   {
@@ -94,6 +95,11 @@ export const migrations = [
   {
     up: migration_20260406_091849_add_delivery.up,
     down: migration_20260406_091849_add_delivery.down,
-    name: '20260406_091849_add_delivery'
+    name: '20260406_091849_add_delivery',
+  },
+  {
+    up: migration_20260406_092332_add_return.up,
+    down: migration_20260406_092332_add_return.down,
+    name: '20260406_092332_add_return'
   },
 ];
