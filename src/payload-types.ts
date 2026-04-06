@@ -73,10 +73,8 @@ export interface Config {
     categories: Category;
     products: Product;
     orders: Order;
-    about: About;
     delivery: Delivery;
     'terms-of-use': TermsOfUse;
-    store: Store;
     return: Return;
     'privacy-policy': PrivacyPolicy;
     'payload-kv': PayloadKv;
@@ -92,10 +90,8 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    about: AboutSelect<false> | AboutSelect<true>;
     delivery: DeliverySelect<false> | DeliverySelect<true>;
     'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
-    store: StoreSelect<false> | StoreSelect<true>;
     return: ReturnSelect<false> | ReturnSelect<true>;
     'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -110,10 +106,12 @@ export interface Config {
   globals: {
     'featured-product-list': FeaturedProductList;
     store: Store;
+    about: About;
   };
   globalsSelect: {
     'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
     store: StoreSelect<false> | StoreSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: null;
   widgets: {
@@ -256,33 +254,6 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about".
- */
-export interface About {
-  id: number;
-  title: string;
-  seoDescription: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  image?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "delivery".
  */
 export interface Delivery {
@@ -330,28 +301,6 @@ export interface TermsOfUse {
     };
     [k: string]: unknown;
   };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "store".
- */
-export interface Store {
-  id: number;
-  name: string;
-  description: string;
-  address: string;
-  phone: string;
-  email: string;
-  socials?: {
-    facebook?: string | null;
-    instagram?: string | null;
-    telegram?: string | null;
-    whatsapp?: string | null;
-  };
-  logo: number | Media;
-  heroImage: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -456,20 +405,12 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
-        relationTo: 'about';
-        value: number | About;
-      } | null)
-    | ({
         relationTo: 'delivery';
         value: number | Delivery;
       } | null)
     | ({
         relationTo: 'terms-of-use';
         value: number | TermsOfUse;
-      } | null)
-    | ({
-        relationTo: 'store';
-        value: number | Store;
       } | null)
     | ({
         relationTo: 'return';
@@ -628,18 +569,6 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about_select".
- */
-export interface AboutSelect<T extends boolean = true> {
-  title?: T;
-  seoDescription?: T;
-  content?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "delivery_select".
  */
 export interface DeliverySelect<T extends boolean = true> {
@@ -657,29 +586,6 @@ export interface TermsOfUseSelect<T extends boolean = true> {
   title?: T;
   seoDescription?: T;
   content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "store_select".
- */
-export interface StoreSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  address?: T;
-  phone?: T;
-  email?: T;
-  socials?:
-    | T
-    | {
-        facebook?: T;
-        instagram?: T;
-        telegram?: T;
-        whatsapp?: T;
-      };
-  logo?: T;
-  heroImage?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -762,6 +668,55 @@ export interface FeaturedProductList {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "store".
+ */
+export interface Store {
+  id: number;
+  name: string;
+  description: string;
+  address: string;
+  phone: string;
+  email: string;
+  socials?: {
+    facebook?: string | null;
+    instagram?: string | null;
+    telegram?: string | null;
+    whatsapp?: string | null;
+  };
+  logo: number | Media;
+  heroImage: number | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "featured-product-list_select".
  */
 export interface FeaturedProductListSelect<T extends boolean = true> {
@@ -771,6 +726,43 @@ export interface FeaturedProductListSelect<T extends boolean = true> {
         product?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "store_select".
+ */
+export interface StoreSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
+  socials?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        telegram?: T;
+        whatsapp?: T;
+      };
+  logo?: T;
+  heroImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
