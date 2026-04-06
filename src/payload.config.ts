@@ -35,12 +35,11 @@ export default buildConfig({
     Categories,
     Products,
     Orders,
-    Delivery,
     TermsOfUse,
     Return,
     PrivacyPolicy,
   ],
-  globals: [FeaturedProductList, Store, About],
+  globals: [FeaturedProductList, Store, About, Delivery],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

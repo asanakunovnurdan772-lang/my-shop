@@ -73,7 +73,6 @@ export interface Config {
     categories: Category;
     products: Product;
     orders: Order;
-    delivery: Delivery;
     'terms-of-use': TermsOfUse;
     return: Return;
     'privacy-policy': PrivacyPolicy;
@@ -90,7 +89,6 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    delivery: DeliverySelect<false> | DeliverySelect<true>;
     'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
     return: ReturnSelect<false> | ReturnSelect<true>;
     'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
@@ -107,11 +105,13 @@ export interface Config {
     'featured-product-list': FeaturedProductList;
     store: Store;
     about: About;
+    delivery: Delivery;
   };
   globalsSelect: {
     'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
     store: StoreSelect<false> | StoreSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    delivery: DeliverySelect<false> | DeliverySelect<true>;
   };
   locale: null;
   widgets: {
@@ -254,32 +254,6 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "delivery".
- */
-export interface Delivery {
-  id: number;
-  title: string;
-  seoDescription: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "terms-of-use".
  */
 export interface TermsOfUse {
@@ -403,10 +377,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: number | Order;
-      } | null)
-    | ({
-        relationTo: 'delivery';
-        value: number | Delivery;
       } | null)
     | ({
         relationTo: 'terms-of-use';
@@ -569,17 +539,6 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "delivery_select".
- */
-export interface DeliverySelect<T extends boolean = true> {
-  title?: T;
-  seoDescription?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "terms-of-use_select".
  */
 export interface TermsOfUseSelect<T extends boolean = true> {
@@ -717,6 +676,32 @@ export interface About {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "delivery".
+ */
+export interface Delivery {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "featured-product-list_select".
  */
 export interface FeaturedProductListSelect<T extends boolean = true> {
@@ -763,6 +748,18 @@ export interface AboutSelect<T extends boolean = true> {
   seoDescription?: T;
   content?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "delivery_select".
+ */
+export interface DeliverySelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
