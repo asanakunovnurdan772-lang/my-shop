@@ -73,8 +73,6 @@ export interface Config {
     categories: Category;
     products: Product;
     orders: Order;
-    'terms-of-use': TermsOfUse;
-    'privacy-policy': PrivacyPolicy;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,8 +86,6 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
-    'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -105,6 +101,8 @@ export interface Config {
     about: About;
     delivery: Delivery;
     return: Return;
+    'terms-of-use': TermsOfUse;
+    'privacy-policy': PrivacyPolicy;
   };
   globalsSelect: {
     'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
@@ -112,6 +110,8 @@ export interface Config {
     about: AboutSelect<false> | AboutSelect<true>;
     delivery: DeliverySelect<false> | DeliverySelect<true>;
     return: ReturnSelect<false> | ReturnSelect<true>;
+    'terms-of-use': TermsOfUseSelect<false> | TermsOfUseSelect<true>;
+    'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
   };
   locale: null;
   widgets: {
@@ -254,58 +254,6 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-of-use".
- */
-export interface TermsOfUse {
-  id: number;
-  title: string;
-  seoDescription: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "privacy-policy".
- */
-export interface PrivacyPolicy {
-  id: number;
-  title: string;
-  seoDescription: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -351,14 +299,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: number | Order;
-      } | null)
-    | ({
-        relationTo: 'terms-of-use';
-        value: number | TermsOfUse;
-      } | null)
-    | ({
-        relationTo: 'privacy-policy';
-        value: number | PrivacyPolicy;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -504,28 +444,6 @@ export interface OrdersSelect<T extends boolean = true> {
         price?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-of-use_select".
- */
-export interface TermsOfUseSelect<T extends boolean = true> {
-  title?: T;
-  seoDescription?: T;
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "privacy-policy_select".
- */
-export interface PrivacyPolicySelect<T extends boolean = true> {
-  title?: T;
-  seoDescription?: T;
-  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -687,6 +605,58 @@ export interface Return {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-of-use".
+ */
+export interface TermsOfUse {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy".
+ */
+export interface PrivacyPolicy {
+  id: number;
+  title: string;
+  seoDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "featured-product-list_select".
  */
 export interface FeaturedProductListSelect<T extends boolean = true> {
@@ -754,6 +724,30 @@ export interface DeliverySelect<T extends boolean = true> {
  * via the `definition` "return_select".
  */
 export interface ReturnSelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-of-use_select".
+ */
+export interface TermsOfUseSelect<T extends boolean = true> {
+  title?: T;
+  seoDescription?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy_select".
+ */
+export interface PrivacyPolicySelect<T extends boolean = true> {
   title?: T;
   seoDescription?: T;
   content?: T;

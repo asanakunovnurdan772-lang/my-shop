@@ -16,6 +16,7 @@ import * as migration_20260406_091513_add_about from './20260406_091513_add_abou
 import * as migration_20260406_091849_add_delivery from './20260406_091849_add_delivery';
 import * as migration_20260406_092332_add_return from './20260406_092332_add_return';
 import * as migration_20260406_092814_add_termsofuse from './20260406_092814_add_termsofuse';
+import * as migration_20260406_093233_add_privacypolicy from './20260406_093233_add_privacypolicy';
 
 export const migrations = [
   {
@@ -106,6 +107,11 @@ export const migrations = [
   {
     up: migration_20260406_092814_add_termsofuse.up,
     down: migration_20260406_092814_add_termsofuse.down,
-    name: '20260406_092814_add_termsofuse'
+    name: '20260406_092814_add_termsofuse',
+  },
+  {
+    up: migration_20260406_093233_add_privacypolicy.up,
+    down: migration_20260406_093233_add_privacypolicy.down,
+    name: '20260406_093233_add_privacypolicy'
   },
 ];

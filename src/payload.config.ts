@@ -28,8 +28,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Brands, Categories, Products, Orders, PrivacyPolicy],
-  globals: [FeaturedProductList, Store, About, Delivery, Return, TermsOfUse],
+  collections: [Users, Media, Brands, Categories, Products, Orders],
+  globals: [FeaturedProductList, Store, About, Delivery, Return, TermsOfUse, PrivacyPolicy],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
