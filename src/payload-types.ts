@@ -109,9 +109,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'featured-product-list': FeaturedProductList;
+    store: Store;
   };
   globalsSelect: {
     'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
+    store: StoreSelect<false> | StoreSelect<true>;
   };
   locale: null;
   widgets: {

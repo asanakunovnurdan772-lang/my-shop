@@ -38,11 +38,10 @@ export default buildConfig({
     About,
     Delivery,
     TermsOfUse,
-    Store,
     Return,
     PrivacyPolicy,
   ],
-  globals: [FeaturedProductList],
+  globals: [FeaturedProductList, Store],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
