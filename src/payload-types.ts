@@ -79,7 +79,6 @@ export interface Config {
     store: Store;
     return: Return;
     'privacy-policy': PrivacyPolicy;
-    'featured-product-list': FeaturedProductList;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -99,7 +98,6 @@ export interface Config {
     store: StoreSelect<false> | StoreSelect<true>;
     return: ReturnSelect<false> | ReturnSelect<true>;
     'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
-    'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -109,8 +107,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'featured-product-list': FeaturedProductList;
+  };
+  globalsSelect: {
+    'featured-product-list': FeaturedProductListSelect<false> | FeaturedProductListSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -405,21 +407,6 @@ export interface PrivacyPolicy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "featured-product-list".
- */
-export interface FeaturedProductList {
-  id: number;
-  products?:
-    | {
-        product?: (number | null) | Product;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -489,10 +476,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'privacy-policy';
         value: number | PrivacyPolicy;
-      } | null)
-    | ({
-        relationTo: 'featured-product-list';
-        value: number | FeaturedProductList;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -722,20 +705,6 @@ export interface PrivacyPolicySelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "featured-product-list_select".
- */
-export interface FeaturedProductListSelect<T extends boolean = true> {
-  products?:
-    | T
-    | {
-        product?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -773,6 +742,36 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featured-product-list".
+ */
+export interface FeaturedProductList {
+  id: number;
+  products?:
+    | {
+        product?: (number | null) | Product;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "featured-product-list_select".
+ */
+export interface FeaturedProductListSelect<T extends boolean = true> {
+  products?:
+    | T
+    | {
+        product?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

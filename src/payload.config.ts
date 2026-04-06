@@ -41,8 +41,8 @@ export default buildConfig({
     Store,
     Return,
     PrivacyPolicy,
-    FeaturedProductList,
   ],
+  globals: [FeaturedProductList],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
