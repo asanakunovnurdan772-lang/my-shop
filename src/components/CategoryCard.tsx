@@ -57,7 +57,7 @@ export default function CategoryCard({ category }: Props) {
         {/* IMAGE */}
         <div className="w-20 h-20 relative z-10" style={{ transform: 'translateZ(40px)' }}>
           {typeof category.image !== 'number' && category.image?.url && (
-            <Link href="#">
+            <Link href={`/categories/${category.id}`}>
               <Image
                 src={category.image.url}
                 alt={category.name ?? 'Category image'}
@@ -73,7 +73,7 @@ export default function CategoryCard({ category }: Props) {
           className="font-semibold text-center text-lg z-10 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500"
           style={{ transform: 'translateZ(60px)' }}
         >
-          <Link href="#">{category.name}</Link>
+          <Link href="`/categories/${category.id}`">{category.name}</Link>
         </h3>
       </div>
     </div>

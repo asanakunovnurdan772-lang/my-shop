@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 type CartItem = {
-  id: string
+  id: number
   title: string
   price: number
   quantity: number
@@ -12,7 +12,7 @@ type CartState = {
   items: CartItem[]
 
   addItem: (item: Omit<CartItem, 'quantity'>) => void
-  removeItem: (id: string) => void
+  removeItem: (id: number) => void
   clearCart: () => void
 }
 

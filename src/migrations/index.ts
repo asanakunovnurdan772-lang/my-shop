@@ -17,6 +17,7 @@ import * as migration_20260406_091849_add_delivery from './20260406_091849_add_d
 import * as migration_20260406_092332_add_return from './20260406_092332_add_return';
 import * as migration_20260406_092814_add_termsofuse from './20260406_092814_add_termsofuse';
 import * as migration_20260406_093233_add_privacypolicy from './20260406_093233_add_privacypolicy';
+import * as migration_20260420_093202_product_list from './20260420_093202_product_list';
 
 export const migrations = [
   {
@@ -112,6 +113,11 @@ export const migrations = [
   {
     up: migration_20260406_093233_add_privacypolicy.up,
     down: migration_20260406_093233_add_privacypolicy.down,
-    name: '20260406_093233_add_privacypolicy'
+    name: '20260406_093233_add_privacypolicy',
+  },
+  {
+    up: migration_20260420_093202_product_list.up,
+    down: migration_20260420_093202_product_list.down,
+    name: '20260420_093202_product_list'
   },
 ];

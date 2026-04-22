@@ -32,7 +32,7 @@ export default function HomepageHeroBlock({ store }: Props) {
 
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
               <Link
-                href="/shop"
+                href="/products"
                 className="px-7 py-3 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-semibold shadow-lg hover:scale-105 transition"
               >
                 Browse Catalog

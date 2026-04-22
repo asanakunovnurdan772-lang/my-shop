@@ -17,6 +17,8 @@ import { Store } from './globals/Store'
 import { Return } from './globals/Return'
 import { PrivacyPolicy } from './globals/PrivacyPolicy'
 import { FeaturedProductList } from './globals/FeaturedProductList'
+import createPayment from './endpoints/createPayment'
+import { Publishers } from './collections/Publisher'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -28,9 +30,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Brands, Categories, Products, Orders],
+  collections: [Users, Media, Brands, Categories, Products, Orders, Publishers],
   globals: [FeaturedProductList, Store, About, Delivery, Return, TermsOfUse, PrivacyPolicy],
   editor: lexicalEditor(),
+  endpoints: [
+    {
+      path: '/create-payment',
+      method: 'post',
+      handler: createPayment,
+    },
+  ],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     products: Product;
     orders: Order;
+    publisher: Publisher;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    publisher: PublisherSelect<false> | PublisherSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -225,9 +227,21 @@ export interface Product {
   category?: (number | null) | Category;
   brand?: (number | null) | Brand;
   price: number;
+  publisher?: (number | null) | Publisher;
   salePrice?: number | null;
   inStock?: boolean | null;
   isPublished?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publisher".
+ */
+export interface Publisher {
+  id: number;
+  name: string;
+  logo?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -243,6 +257,7 @@ export interface Order {
   total?: number | null;
   shippingAddress: string;
   phone: string;
+  stripeSessionId?: string | null;
   items: {
     product: number | Product;
     quantity: number;
@@ -299,6 +314,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'publisher';
+        value: number | Publisher;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -419,6 +438,7 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   brand?: T;
   price?: T;
+  publisher?: T;
   salePrice?: T;
   inStock?: T;
   isPublished?: T;
@@ -436,6 +456,7 @@ export interface OrdersSelect<T extends boolean = true> {
   total?: T;
   shippingAddress?: T;
   phone?: T;
+  stripeSessionId?: T;
   items?:
     | T
     | {
@@ -444,6 +465,16 @@ export interface OrdersSelect<T extends boolean = true> {
         price?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publisher_select".
+ */
+export interface PublisherSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

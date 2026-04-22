@@ -6,6 +6,15 @@ import { getCategories, getHomeProducts, getStoreInfo } from '@/lib/apiServices'
 
 import Link from 'next/link'
 import { FaArrowRightLong } from 'react-icons/fa6'
+import { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const store = await getStoreInfo()
+
+  return {
+    title: `${store?.name} - Online Store` || 'Home Page',
+  }
+}
 
 export default async function HomePage() {
   const store = await getStoreInfo()
@@ -29,7 +38,7 @@ export default async function HomePage() {
           </h2>
 
           <Link
-            href="/shop"
+            href="/products"
             className="text-yellow-400 flex items-center gap-2 hover:text-yellow-300 transition"
           >
             View All
@@ -54,7 +63,7 @@ export default async function HomePage() {
           </h2>
 
           <Link
-            href="/shop"
+            href="/categories"
             className="text-yellow-400 flex items-center gap-2 hover:text-yellow-300 transition"
           >
             View All
@@ -71,7 +80,7 @@ export default async function HomePage() {
 
           {/* MORE CATEGORIES CARD */}
           <div className="border border-yellow-500/20 rounded-2xl flex flex-col items-center justify-center p-6 bg-black/90 backdrop-blur-xl text-yellow-400 shadow-[0_0_25px_rgba(212,175,55,0.08)] hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition">
-            <Link className="flex flex-col items-center justify-center gap-2" href={'#'}>
+            <Link className="flex flex-col items-center justify-center gap-2" href={'/categories'}>
               <span className="font-bold text-4xl text-yellow-300">+</span>
               <span className="text-yellow-400">{leftCategoriesCount} more categories</span>
             </Link>

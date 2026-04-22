@@ -43,7 +43,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
           <main>{children}</main>
           <Footer storeName={store.name} logoUrl={store.logoUrl} socials={socials} />
-          <Toaster position="top-center" />
+          <Toaster position="top-center" reverseOrder={false} />
         </AuthProvider>
       </body>
     </html>

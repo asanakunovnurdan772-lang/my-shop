@@ -69,6 +69,15 @@ export const Products: CollectionConfig = {
       },
     },
     {
+      name: 'publisher',
+      type: 'relationship',
+      relationTo: 'publisher', // ✅ правильно
+      hasMany: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'salePrice',
       type: 'number',
       admin: {

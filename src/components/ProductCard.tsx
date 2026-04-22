@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import { useCartStore } from '@/store/useCartStore'
-import { toast } from 'react-hot-toast'
-import { Toaster } from 'react-hot-toast'
+import { AddToCartButton } from '@/components/AddToCartBtn'
+import type { Order } from '@/payload-types'
 
 type Props = {
   product: Product
@@ -15,16 +15,6 @@ type Props = {
 export default function ProductCard({ product }: Props) {
   const addItem = useCartStore((s) => s.addItem)
 
-  const handleAddToCart = () => {
-    console.log('adding')
-    addItem({
-      id: String(product.id),
-      title: product.name,
-      price: product.salePrice || product.price,
-    })
-
-    toast.success('Added to cart')
-  }
   return (
     <div className="group relative w-full overflow-hidden rounded-2xl border border-yellow-500/10 bg-black/60 backdrop-blur-2xl shadow-[0_0_60px_rgba(212,175,55,0.08)] hover:shadow-[0_0_80px_rgba(212,175,55,0.18)] transition-all duration-500">
       {/* glow border effect */}
@@ -75,13 +65,13 @@ export default function ProductCard({ product }: Props) {
             )}
           </div>
 
-          {/* BUTTON */}
-          <button
-            onClick={handleAddToCart}
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black text-xs font-bold tracking-wide uppercase shadow-[0_0_25px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-105 transition cursor-pointer"
-          >
-            Add
-          </button>
+          {product.inStock ? (
+            <AddToCartButton id={product.id} title={product.name} price={product.price} />
+          ) : (
+            <span className="inline-block text-sm px-3 py-1 rounded-full border border-yellow-500/30 text-yellow-500/60 bg-black/40 backdrop-blur">
+              Out of stock
+            </span>
+          )}
         </div>
       </div>
     </div>

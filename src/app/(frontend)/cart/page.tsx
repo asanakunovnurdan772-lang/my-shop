@@ -20,7 +20,7 @@ export default function CartPage() {
         <h1 className="text-3xl font-bold mb-4 text-yellow-400">Your cart is empty</h1>
 
         <Link
-          href="/shop"
+          href="/products"
           className="inline-block mt-4 px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-semibold rounded-full shadow-lg hover:scale-105 transition"
         >
           Go shopping
@@ -133,10 +133,12 @@ export default function CartPage() {
             </div>
 
             <Link
-              href="/checkout"
-              className="block text-center py-3 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-bold shadow-lg hover:scale-105 transition"
+              href={'/checkout'}
+              className="relative block w-full text-center py-3 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black font-bold shadow-[0_0_25px_rgba(212,175,55,0.35)] hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.5)] transition duration-300 overflow-hidden"
             >
               Proceed to Checkout
+              {/* shine effect */}
+              <span className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition" />
             </Link>
           </div>
         </div>

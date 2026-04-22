@@ -5,11 +5,12 @@ import Logo from './Logo'
 import { LuShoppingCart } from 'react-icons/lu'
 import { LuUser } from 'react-icons/lu'
 import { IoIosClose } from 'react-icons/io'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/providers/AuthProvider'
 import { useCartStore } from '@/store/useCartStore'
+import { useSearchParams } from 'next/navigation'
 
 type Props = {
   storeName: string
@@ -20,8 +21,30 @@ function Header({ storeName, logoUrl }: Props) {
   const { user, setUser } = useAuth()
   const [userBlockOpen, setUserBlockOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+
+  const searchParams = useSearchParams()
 
   const router = useRouter()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const value = search.trim()
+    if (!value) return
+
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.set('search', value)
+    params.set('page', '1')
+
+    router.push(`/products?${params.toString()}`)
+  }
+
+  useEffect(() => {
+    const querySearch = searchParams.get('search') || ''
+    setSearch(querySearch)
+  }, [searchParams])
 
   // Если нужно показать общее количество уникальных товаров
   // const totalItems = useCartStore((state) => state.items.length)
@@ -102,16 +125,18 @@ function Header({ storeName, logoUrl }: Props) {
           {user ? (
             <>
               <Link
-                className="text-yellow-400 hover:text-yellow-300 flex items-center gap-2"
                 href="/profile"
+                className="flex items-center gap-2"
+                onClick={() => setUserBlockOpen(false)}
               >
                 <LuUser className="w-5 h-5" />
                 Profile
               </Link>
 
               <Link
-                className="text-yellow-400 hover:text-yellow-300 flex items-center gap-2"
-                href="/"
+                href="/orders"
+                className="flex items-center gap-2"
+                onClick={() => setUserBlockOpen(false)}
               >
                 <LuShoppingCart className="w-5 h-5" />
                 My Orders
@@ -154,29 +179,37 @@ function Header({ storeName, logoUrl }: Props) {
         </div>
 
         {/* search */}
-        <div className="w-full my-6 relative">
+        <form onSubmit={handleSearch} className="w-full my-6 relative">
           <MdOutlineSearch className="absolute top-3 left-3 w-4 h-4 text-yellow-400" />
           <input
             type="text"
             placeholder="Search luxury products..."
             className="w-full bg-black border border-yellow-500/30 text-yellow-100 rounded-full py-2 px-2 pl-9 focus:outline-none focus:ring-2 focus:ring-yellow-500/40"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
-        </div>
+        </form>
 
         {/* links */}
-        <div className="w-full flex items-center justify-center gap-4">
+        <div className="w-full flex items-center justify-center gap-4 flex-wrap">
           <Link
             className="px-8 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-bold shadow-lg hover:scale-105 transition"
-            href="/shop"
+            href="/products"
           >
             Shop
           </Link>
 
           <Link
             className="px-8 py-2 rounded-full border border-yellow-500 text-yellow-400 hover:bg-yellow-500/10 transition"
-            href="/new-arrivals"
+            href="/categories"
           >
-            New Arrivals
+            Categories
+          </Link>
+          <Link className="bg-indigo-400 px-8 py-2 rounded-full text-white" href="/about">
+            About us
+          </Link>
+          <Link className="bg-indigo-400 px-8 py-2 rounded-full text-white" href="/contacts">
+            Contacts
           </Link>
         </div>
       </header>
@@ -195,23 +228,34 @@ function Header({ storeName, logoUrl }: Props) {
           </Link>
 
           <div className="flex items-center gap-6">
-            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/shop">
+            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/products">
               Shop
             </Link>
 
-            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/new-arrivals">
-              New Arrivals
+            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/categories">
+              Categories
+            </Link>
+            <Link className="text-indigo-500 hover:text-indigo-700 transition-colors" href="/about">
+              About us
+            </Link>
+            <Link
+              className="text-indigo-500 hover:text-indigo-700 transition-colors"
+              href="/contacts"
+            >
+              Contacts
             </Link>
           </div>
 
-          <div className="relative max-w-125 min-w-76">
+          <form onSubmit={handleSearch} className="relative flex-1">
             <MdOutlineSearch className="absolute top-3 left-3 w-4 h-4 text-yellow-400" />
             <input
               type="text"
               placeholder="Search luxury products..."
               className="w-full bg-black border border-yellow-500/30 text-yellow-100 rounded-full py-2 px-2 pl-9 focus:outline-none focus:ring-2 focus:ring-yellow-500/40"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
-          </div>
+          </form>
 
           <div className="flex items-center gap-6">
             <Link
@@ -250,16 +294,18 @@ function Header({ storeName, logoUrl }: Props) {
             {user ? (
               <>
                 <Link
-                  className="text-yellow-400 hover:text-yellow-300 flex items-center gap-2"
                   href="/profile"
+                  className="flex items-center gap-2"
+                  onClick={() => setUserBlockOpen(false)}
                 >
                   <LuUser className="w-5 h-5" />
                   Profile
                 </Link>
 
                 <Link
-                  className="text-yellow-400 hover:text-yellow-300 flex items-center gap-2"
-                  href="/"
+                  href="/orders"
+                  className="flex items-center gap-2"
+                  onClick={() => setUserBlockOpen(false)}
                 >
                   <LuShoppingCart className="w-5 h-5" />
                   My Orders

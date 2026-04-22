@@ -8,6 +8,12 @@ export const Users: CollectionConfig = {
   auth: true,
   access: {
     create: () => true,
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      return {
+        id: { equals: user.id }, // только свой профиль
+      }
+    },
   },
   fields: [
     {
