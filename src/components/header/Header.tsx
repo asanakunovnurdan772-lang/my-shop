@@ -228,19 +228,30 @@ function Header({ storeName, logoUrl }: Props) {
           </Link>
 
           <div className="flex items-center gap-6">
-            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/products">
+            <Link
+              href="/products"
+              className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300"
+            >
               Shop
             </Link>
 
-            <Link className="text-yellow-400 hover:text-yellow-300 transition" href="/categories">
+            <Link
+              href="/categories"
+              className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300"
+            >
               Categories
             </Link>
-            <Link className="text-indigo-500 hover:text-indigo-700 transition-colors" href="/about">
+
+            <Link
+              href="/about"
+              className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300"
+            >
               About us
             </Link>
+
             <Link
-              className="text-indigo-500 hover:text-indigo-700 transition-colors"
               href="/contacts"
+              className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300"
             >
               Contacts
             </Link>
@@ -287,7 +298,7 @@ function Header({ storeName, logoUrl }: Props) {
 
           {/* sidebar */}
           <div
-            className={`fixed w-[32%] min-h-screen top-0 right-0 bg-black/95 backdrop-blur-2xl px-8 py-12 flex flex-col gap-y-6 z-20 transition-transform duration-300 border-l border-yellow-500/20 shadow-2xl ${
+            className={`fixed w-[30%] min-h-screen top-0 right-0 bg-black/90 backdrop-blur-2xl px-8 py-12 flex flex-col gap-y-6 z-20 transition-transform duration-300 border-l border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.8)] ${
               userBlockOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
@@ -295,44 +306,46 @@ function Header({ storeName, logoUrl }: Props) {
               <>
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2"
                   onClick={() => setUserBlockOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/5 transition group"
                 >
-                  <LuUser className="w-5 h-5" />
-                  Profile
+                  <LuUser className="w-5 h-5 group-hover:scale-110 transition" />
+                  <span className="tracking-wide">Profile</span>
                 </Link>
 
                 <Link
                   href="/orders"
-                  className="flex items-center gap-2"
                   onClick={() => setUserBlockOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/5 transition group"
                 >
-                  <LuShoppingCart className="w-5 h-5" />
-                  My Orders
+                  <LuShoppingCart className="w-5 h-5 group-hover:scale-110 transition" />
+                  <span className="tracking-wide">My Orders</span>
                 </Link>
 
-                <hr className="border-yellow-500/20" />
+                <div className="h-px bg-white/10 my-2" />
 
                 <button
-                  className="bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-bold rounded-full py-2 shadow-lg hover:scale-105 transition"
                   disabled={loading}
                   onClick={handleLogout}
+                  className="mt-2 w-full py-3 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black font-semibold shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-[1.02] transition"
                 >
                   {loading ? 'Logging out...' : 'Logout'}
                 </button>
               </>
             ) : (
-              <div className="flex gap-4 items-center justify-center py-4">
+              <div className="flex flex-col gap-4 items-center justify-center py-6">
                 <Link
-                  className="px-8 py-2 rounded-full border border-yellow-500 text-yellow-400 hover:bg-yellow-500/10 transition"
                   href="/auth/login"
+                  onClick={() => setUserBlockOpen(false)}
+                  className="w-full text-center py-3 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-white transition"
                 >
                   Login
                 </Link>
 
                 <Link
-                  className="px-8 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-bold shadow-lg hover:scale-105 transition"
                   href="/auth/register"
+                  onClick={() => setUserBlockOpen(false)}
+                  className="w-full text-center py-3 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black font-semibold shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-[1.02] transition"
                 >
                   Register
                 </Link>

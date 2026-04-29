@@ -6,15 +6,17 @@ export function AddToCartButton({
   id,
   title,
   price,
+  image,
 }: {
   id: number
   title: string
   price: number
+  image: string
 }) {
   const addItem = useCartStore((s) => s.addItem)
 
   const handleAddToCart = () => {
-    addItem({ id, title, price })
+    addItem({ id, title, price, image })
     toast.success('Added to cart')
   }
 

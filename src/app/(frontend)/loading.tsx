@@ -1,8 +1,15 @@
 export default function Loading() {
   return (
-    <div className="py-8 min-h-[calc(100vh-123px-116px)] flex flex-col items-center justify-center">
-      <div className="w-[20%] h-[20%]">
-        <svg fill="hsl(228, 97%, 42%)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    /* bg-neutral-950 делает фон глубоким черным, а text-white подготавливает цвет для контента */
+    <div className="py-8 min-h-[calc(100vh-123px-116px)] flex flex-col items-center justify-center bg-neutral-950">
+      {/* Контейнер для спиннера. Сделал размер чуть адекватнее (w-16 h-16) */}
+      <div className="w-16 h-16 text-yellow-400">
+        <svg
+          className="animate-spin"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g>
             <rect x="11" y="1" width="2" height="5" opacity=".14" />
             <rect x="11" y="1" width="2" height="5" transform="rotate(30 12 12)" opacity=".29" />
@@ -11,6 +18,7 @@ export default function Loading() {
             <rect x="11" y="1" width="2" height="5" transform="rotate(120 12 12)" opacity=".71" />
             <rect x="11" y="1" width="2" height="5" transform="rotate(150 12 12)" opacity=".86" />
             <rect x="11" y="1" width="2" height="5" transform="rotate(180 12 12)" />
+
             <animateTransform
               attributeName="transform"
               type="rotate"
@@ -22,6 +30,11 @@ export default function Loading() {
           </g>
         </svg>
       </div>
+
+      {/* Опционально: текст под спиннером */}
+      <p className="mt-4 text-neutral-400 text-sm font-medium tracking-widest uppercase">
+        Loading...
+      </p>
     </div>
   )
 }

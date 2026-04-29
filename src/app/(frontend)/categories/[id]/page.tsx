@@ -49,34 +49,53 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const isEmpty = books.length === 0
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10 min-h-[calc(100vh-123px-116px)]">
-      {!isEmpty ? (
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8">
-          All Products in Category: {category.name}
-        </h2>
-      ) : null}
+    <section className="relative min-h-[calc(100vh-123px-116px)] bg-black text-white px-4 py-16 overflow-hidden">
+      {/* background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_60%)] pointer-events-none" />
 
-      {isEmpty ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <p className="text-lg font-medium mb-2">No products found in this category</p>
-          <p className="text-sm text-gray-500">
-            Try checking back later or choose another category
-          </p>
-          <Link href={'/products'} className="py-2 px-6 bg-indigo-600 rounded-full text-white my-4">
-            Go shopping
-          </Link>
-        </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {books.map((book) => (
-              <ProductCard product={book} key={book.id} />
-            ))}
+      <div className="relative max-w-7xl mx-auto">
+        {/* TITLE */}
+        {!isEmpty && (
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-10 text-center tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 animate-fadeUp">
+            {category.name}
+          </h2>
+        )}
+
+        {/* EMPTY STATE */}
+        {isEmpty ? (
+          <div className="flex flex-col items-center justify-center py-32 text-center animate-fadeUp">
+            <p className="text-xl font-semibold mb-3 text-yellow-200">No products found</p>
+            <p className="text-sm text-yellow-100/60 mb-6">
+              Try another category or explore our catalog
+            </p>
+
+            <Link
+              href={'/products'}
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black font-semibold shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition"
+            >
+              Explore Products
+            </Link>
           </div>
+        ) : (
+          <>
+            {/* GRID */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 animate-fadeUp delay-200">
+              {books.map((book) => (
+                <ProductCard product={book} key={book.id} />
+              ))}
+            </div>
 
-          <CategoryPagination totalPages={totalPages} currentPage={currentPage} categoryId={id} />
-        </>
-      )}
+            {/* PAGINATION */}
+            <div className="mt-12 flex justify-center animate-fadeUp delay-300">
+              <CategoryPagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                categoryId={id}
+              />
+            </div>
+          </>
+        )}
+      </div>
     </section>
   )
 }

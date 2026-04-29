@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { formatPrice } from '@/lib/utils'
 import { useCartStore } from '@/store/useCartStore'
 import Link from 'next/link'
@@ -45,10 +46,20 @@ export default function CartPage() {
                 key={item.id}
                 className="border border-yellow-500/20 bg-black/80 backdrop-blur-xl rounded-xl p-5 flex justify-between items-center shadow-[0_0_20px_rgba(212,175,55,0.08)]"
               >
-                {/* INFO */}
-                <div className="w-1/2">
-                  <h3 className="font-semibold text-yellow-100">{item.title}</h3>
-                  <p className="text-sm text-yellow-500/70">${formatPrice(item.price)} each</p>
+                {/* INFO + IMAGE */}
+                <div className="w-1/2 flex items-center gap-4">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={64}
+                    height={64}
+                    className="rounded-lg border border-yellow-500/20 object-cover"
+                  />
+
+                  <div>
+                    <h3 className="font-semibold text-yellow-100">{item.title}</h3>
+                    <p className="text-sm text-yellow-500/70">${formatPrice(item.price)} each</p>
+                  </div>
                 </div>
 
                 {/* QUANTITY */}
@@ -76,6 +87,7 @@ export default function CartPage() {
                         id: item.id,
                         title: item.title,
                         price: item.price,
+                        image: item.image, // важно!
                       })
                     }
                     className="px-3 py-1 border border-yellow-500/30 rounded hover:bg-yellow-500/10"
@@ -137,7 +149,6 @@ export default function CartPage() {
               className="relative block w-full text-center py-3 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 text-black font-bold shadow-[0_0_25px_rgba(212,175,55,0.35)] hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.5)] transition duration-300 overflow-hidden"
             >
               Proceed to Checkout
-              {/* shine effect */}
               <span className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition" />
             </Link>
           </div>

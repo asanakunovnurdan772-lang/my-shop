@@ -19,27 +19,13 @@ type Order = {
     price: number
   }[]
 }
+
 const statusMap: Record<string, { label: string; color: string }> = {
-  pending: {
-    label: 'Pending',
-    color: 'text-yellow-600',
-  },
-  processing: {
-    label: 'Processing',
-    color: 'text-blue-600',
-  },
-  shipped: {
-    label: 'Shipped',
-    color: 'text-purple-600',
-  },
-  delivered: {
-    label: 'Delivered',
-    color: 'text-green-700',
-  },
-  cancelled: {
-    label: 'Cancelled',
-    color: 'text-red-600',
-  },
+  pending: { label: 'Pending', color: 'text-yellow-400' },
+  processing: { label: 'Processing', color: 'text-blue-400' },
+  shipped: { label: 'Shipped', color: 'text-purple-400' },
+  delivered: { label: 'Delivered', color: 'text-green-400' },
+  cancelled: { label: 'Cancelled', color: 'text-red-400' },
 }
 
 export default function OrdersPage() {
@@ -59,11 +45,9 @@ export default function OrdersPage() {
         })
 
         const data = await res.json()
-
-        // Payload возвращает { docs: [...] }
         setOrders(data.docs || [])
       } catch (err) {
-        console.error('Error fetching orders', err)
+        console.error(err)
       } finally {
         setLoading(false)
       }
@@ -74,63 +58,81 @@ export default function OrdersPage() {
 
   if (!user) {
     return (
-      <div className="p-10 text-center">
-        <p className="mb-4">You are not logged in</p>
-        <Link href="/auth/login" className="text-blue-600 underline">
-          Log in
+      <div className="min-h-screen flex items-center justify-center bg-black text-yellow-200">
+        <Link href="/auth/login" className="underline">
+          Log in to view orders
         </Link>
       </div>
     )
   }
 
   if (loading) {
-    return <div className="p-10 text-center">Loading...</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-yellow-200">
+        Loading...
+      </div>
+    )
   }
 
   if (orders.length === 0) {
     return (
-      <div className="p-10 text-center">
-        <h1 className="text-2xl font-bold mb-4">You have no orders</h1>
-        <Link href="/books" className="inline-block px-6 py-2 bg-gray-700 text-white rounded-full">
-          Go to shopping
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-yellow-200">
+        <h1 className="text-2xl font-bold mb-4">No orders yet</h1>
+        <Link
+          href="/books"
+          className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-300 text-black rounded-full font-semibold"
+        >
+          Start shopping
         </Link>
       </div>
     )
   }
 
-  // пагинация заказов если их больше 10
   const totalPages = Math.ceil(orders.length / ordersPerPage)
-
   const startIndex = (currentPage - 1) * ordersPerPage
   const currentOrders = orders.slice(startIndex, startIndex + ordersPerPage)
 
   return (
-    <section className="py-12">
-      <div className="max-w-5xl mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+    <section className="relative min-h-screen bg-black text-white px-4 py-16 overflow-hidden">
+      {/* glow background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_60%)] pointer-events-none" />
 
-        <div className="space-y-6">
+      <div className="relative max-w-5xl mx-auto">
+        {/* TITLE */}
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 animate-fadeUp">
+          My Orders
+        </h1>
+
+        {/* ORDERS */}
+        <div className="space-y-6 animate-fadeUp delay-200">
           {currentOrders.map((order) => (
-            <div key={order.id} className="border border-gray-300 rounded-xl p-6">
-              <div className="flex justify-between mb-4">
+            <div
+              key={order.id}
+              className="border border-yellow-500/10 bg-black/60 backdrop-blur-xl rounded-2xl p-6 shadow-[0_0_30px_rgba(212,175,55,0.06)]"
+            >
+              {/* HEADER */}
+              <div className="flex justify-between mb-5">
                 <div>
-                  <p className="font-semibold">Order #{order.id}</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="font-semibold text-yellow-200">
+                    Order #{String(order.id).slice(0, 8)}
+                  </p>
+                  <p className="text-xs text-yellow-100/50">
                     {new Date(order.createdAt).toLocaleString()}
                   </p>
                 </div>
 
                 <div className="text-right">
-                  <p className="font-bold">${formatPrice(order.total)}</p>
+                  <p className="font-bold text-yellow-300">${formatPrice(order.total)}</p>
                   <p className={`text-sm font-medium ${statusMap[order.status]?.color}`}>
                     {statusMap[order.status]?.label || order.status}
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-2">
+              {/* ITEMS */}
+              <div className="space-y-2 border-t border-yellow-500/10 pt-4">
                 {order.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
+                  <div key={idx} className="flex justify-between text-sm text-yellow-100/70">
                     <span>
                       {item.product?.name} × {item.quantity}
                     </span>
@@ -142,57 +144,42 @@ export default function OrdersPage() {
           ))}
         </div>
 
-        {/*пагинация*/}
-        <div>
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-8">
-              {/* LEFT */}
+        {/* PAGINATION */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 mt-10 animate-fadeUp delay-300">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-2 rounded-full hover:bg-yellow-500/10 transition disabled:opacity-30"
+            >
+              <FaLongArrowAltLeft className="text-yellow-300" />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
               <button
-                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                disabled={currentPage === 1}
-                className={`p-2 rounded-full transition-colors ${
-                  currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-indigo-100'
-                }`}
+                key={p}
+                onClick={() => setCurrentPage(p)}
+                className={`px-3 py-1 rounded-full text-sm transition
+                  ${
+                    p === currentPage
+                      ? 'bg-gradient-to-r from-yellow-500 to-yellow-300 text-black font-semibold'
+                      : 'text-yellow-100 hover:bg-yellow-500/10'
+                  }
+                `}
               >
-                <FaLongArrowAltLeft className="w-4 h-4 text-indigo-600" />
+                {p}
               </button>
+            ))}
 
-              {/* PAGES */}
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
-                const isActive = p === currentPage
-
-                return (
-                  <button
-                    key={p}
-                    onClick={() => setCurrentPage(p)}
-                    className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-sm transition-colors
-                      ${
-                        isActive
-                          ? 'bg-indigo-600 text-white shadow-sm'
-                          : 'text-gray-700 hover:bg-indigo-100'
-                      }
-                    `}
-                  >
-                    {p}
-                  </button>
-                )
-              })}
-
-              {/* RIGHT */}
-              <button
-                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className={`p-2 rounded-full transition-colors ${
-                  currentPage === totalPages
-                    ? 'opacity-30 cursor-not-allowed'
-                    : 'hover:bg-indigo-100'
-                }`}
-              >
-                <FaLongArrowAltRight className="w-4 h-4 text-indigo-600" />
-              </button>
-            </div>
-          )}
-        </div>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-full hover:bg-yellow-500/10 transition disabled:opacity-30"
+            >
+              <FaLongArrowAltRight className="text-yellow-300" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

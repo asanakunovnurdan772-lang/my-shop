@@ -20,77 +20,88 @@ export default async function ContactsPage() {
   const socials = store.socials
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-12 min-h-[calc(100vh-123px-80px)]">
-      <article className="bg-white shadow-lg rounded-2xl p-8 md:p-10 border border-gray-100">
-        <h1 className="text-3xl md:text-4xl font-bold mb-8">Contact Us</h1>
+    <section className="relative min-h-screen bg-black text-white px-4 py-20 overflow-hidden">
+      {/* background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_60%)] pointer-events-none" />
 
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-5">
-            <p className="text-xl font-semibold">{store.name}</p>
+      <div className="relative max-w-5xl mx-auto">
+        {/* TITLE */}
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 animate-fadeUp">
+          Contact Us
+        </h1>
 
-            <div className="flex items-start gap-3 text-gray-600">
-              <FaMapMarkerAlt className="mt-1 text-indigo-600" />
-              <span>{store.address}</span>
+        {/* CARD */}
+        <article className="border border-yellow-500/20 bg-black/70 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-[0_0_40px_rgba(212,175,55,0.1)] animate-fadeUp delay-200">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* LEFT */}
+            <div className="space-y-6">
+              <p className="text-2xl font-semibold text-yellow-300">{store.name}</p>
+
+              <div className="flex items-start gap-4 text-yellow-100/80">
+                <FaMapMarkerAlt className="mt-1 text-yellow-400" />
+                <span>{store.address}</span>
+              </div>
+
+              <div className="flex items-center gap-4 text-yellow-100/80 hover:text-yellow-300 transition">
+                <FaPhoneAlt className="text-yellow-400" />
+                <span>{store.phone}</span>
+              </div>
+
+              <div className="flex items-center gap-4 text-yellow-100/80 hover:text-yellow-300 transition">
+                <FaEnvelope className="text-yellow-400" />
+                <span>{store.email}</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-3 text-gray-600">
-              <FaPhoneAlt className="text-indigo-600" />
-              <span className="hover:text-black transition">{store.phone}</span>
-            </div>
+            {/* RIGHT */}
+            <div>
+              <p className="text-xl font-semibold mb-6 text-yellow-300">Follow Us</p>
 
-            <div className="flex items-center gap-3 text-gray-600">
-              <FaEnvelope className="text-indigo-600" />
-              <span className="hover:text-black transition">{store.email}</span>
+              <div className="flex gap-4 flex-wrap">
+                {socials?.facebook && (
+                  <a
+                    target="_blank"
+                    href={socials.facebook}
+                    className="group p-4 rounded-full border border-yellow-500/20 bg-black/60 backdrop-blur hover:scale-110 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition"
+                  >
+                    <FaFacebook className="text-yellow-300 group-hover:text-yellow-400" />
+                  </a>
+                )}
+
+                {socials?.instagram && (
+                  <a
+                    target="_blank"
+                    href={socials.instagram}
+                    className="group p-4 rounded-full border border-yellow-500/20 bg-black/60 backdrop-blur hover:scale-110 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition"
+                  >
+                    <FaInstagram className="text-yellow-300 group-hover:text-yellow-400" />
+                  </a>
+                )}
+
+                {socials?.telegram && (
+                  <a
+                    target="_blank"
+                    href={socials.telegram}
+                    className="group p-4 rounded-full border border-yellow-500/20 bg-black/60 backdrop-blur hover:scale-110 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition"
+                  >
+                    <FaTelegram className="text-yellow-300 group-hover:text-yellow-400" />
+                  </a>
+                )}
+
+                {socials?.whatsapp && (
+                  <a
+                    target="_blank"
+                    href={socials.whatsapp}
+                    className="group p-4 rounded-full border border-yellow-500/20 bg-black/60 backdrop-blur hover:scale-110 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition"
+                  >
+                    <FaWhatsapp className="text-yellow-300 group-hover:text-yellow-400" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
-
-          <div>
-            <p className="text-xl font-semibold mb-4">Follow Us on Social Media</p>
-
-            <div className="flex gap-4">
-              {socials?.facebook && (
-                <a
-                  target="_blank"
-                  href={socials.facebook}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-blue-500 hover:text-white transition"
-                >
-                  <FaFacebook />
-                </a>
-              )}
-
-              {socials?.instagram && (
-                <a
-                  target="_blank"
-                  href={socials.instagram}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-pink-500 hover:text-white transition"
-                >
-                  <FaInstagram />
-                </a>
-              )}
-
-              {socials?.telegram && (
-                <a
-                  target="_blank"
-                  href={socials.telegram}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-sky-500 hover:text-white transition"
-                >
-                  <FaTelegram />
-                </a>
-              )}
-
-              {socials?.whatsapp && (
-                <a
-                  target="_blank"
-                  href={socials.whatsapp}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-green-500 hover:text-white transition"
-                >
-                  <FaWhatsapp />
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </div>
+    </section>
   )
 }

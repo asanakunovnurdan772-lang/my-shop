@@ -1,166 +1,170 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '@/providers/AuthProvider'
-import { useRouter } from 'next/navigation'
+import { formatPrice } from '@/lib/utils'
+import Link from 'next/link'
+import { FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa'
 
-export default function ProfilePage() {
-  const { user, setUser } = useAuth()
-  const router = useRouter()
+type Order = {
+  id: string
+  total: number
+  status: string
+  createdAt: string
+  items: {
+    product: {
+      name: string
+    }
+    quantity: number
+    price: number
+  }[]
+}
 
-  const [form, setForm] = useState({
-    name: '',
-    currentPassword: '',
-    newPassword: '',
-  })
+const statusMap: Record<string, { label: string; color: string; dot: string }> = {
+  pending: { label: 'Pending', color: 'text-yellow-600', dot: 'bg-yellow-400' },
+  processing: { label: 'Processing', color: 'text-blue-600', dot: 'bg-blue-400' },
+  shipped: { label: 'Shipped', color: 'text-purple-600', dot: 'bg-purple-400' },
+  delivered: { label: 'Delivered', color: 'text-green-700', dot: 'bg-green-500' },
+  cancelled: { label: 'Cancelled', color: 'text-red-600', dot: 'bg-red-400' },
+}
 
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export default function OrdersPage() {
+  const { user } = useAuth()
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+
+  const perPage = 6
 
   useEffect(() => {
-    if (user) {
-      setForm((prev) => ({
-        ...prev,
-        name: user.name || '',
-      }))
+    if (!user) return
+
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch('/api/orders', { credentials: 'include' })
+        const data = await res.json()
+        setOrders(data.docs || [])
+      } finally {
+        setLoading(false)
+      }
     }
+
+    fetchOrders()
   }, [user])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setSuccess(false)
-
-    if (!user) {
-      router.push('/auth/login')
-      return
-    }
-
-    setLoading(true)
-
-    try {
-      // 1. Проверяем текущий пароль
-      if (form.currentPassword) {
-        const loginRes = await fetch('/api/users/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: user.email,
-            password: form.currentPassword,
-          }),
-        })
-
-        if (!loginRes.ok) {
-          throw new Error('Invalid current password')
-        }
-      }
-
-      // 2. Обновляем данные
-      const res = await fetch(`/api/users/${user.id}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          ...(form.newPassword ? { password: form.newPassword } : {}),
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data?.errors?.[0]?.message || 'Error updating profile')
-      }
-
-      setUser(data.doc)
-
-      setSuccess(true)
-
-      // очищаем пароли
-      setForm((prev) => ({
-        ...prev,
-        currentPassword: '',
-        newPassword: '',
-      }))
-    } catch (err: any) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   if (!user) {
-    return <div className="p-10 text-center">You are not authorized</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Please log in to view your orders
+      </div>
+    )
   }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading orders...
+      </div>
+    )
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center">
+        <h1 className="text-2xl font-semibold mb-2">No orders yet</h1>
+        <p className="text-gray-500 mb-6">Your purchases will appear here</p>
+        <Link
+          href="/shop"
+          className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition"
+        >
+          Start shopping
+        </Link>
+      </div>
+    )
+  }
+
+  const totalPages = Math.ceil(orders.length / perPage)
+  const visible = orders.slice((page - 1) * perPage, page * perPage)
 
   return (
-    <section className="py-12 min-h-screen">
-      <div className="max-w-xl mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">My Profile</h1>
+    <section className="min-h-screen bg-gradient-to-b from-white to-gray-50 py-12">
+      <div className="max-w-5xl mx-auto px-4">
+        {/* HEADER */}
+        <div className="mb-10">
+          <h1 className="text-3xl font-semibold tracking-tight">Orders</h1>
+          <p className="text-gray-500 text-sm mt-1">Track and manage your purchases</p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* NAME */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">Name</label>
-            <input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3
-              focus:outline-none focus:ring-2 focus:ring-gray-400"
-            />
+        {/* ORDERS */}
+        <div className="space-y-5">
+          {visible.map((order) => {
+            const status = statusMap[order.status]
+
+            return (
+              <div
+                key={order.id}
+                className="rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-xl shadow-sm hover:shadow-md transition p-6"
+              >
+                {/* TOP */}
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <p className="text-sm text-gray-400">Order</p>
+                    <p className="font-medium text-gray-900">#{String(order.id).slice(0, 8)}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {new Date(order.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="font-semibold text-gray-900">${formatPrice(order.total)}</p>
+
+                    <div className="flex items-center justify-end gap-2 mt-1">
+                      <span className={`w-2 h-2 rounded-full ${status?.dot}`} />
+                      <span className={`text-xs ${status?.color}`}>
+                        {status?.label || order.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ITEMS */}
+                <div className="border-t pt-3 space-y-1">
+                  {order.items.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="flex justify-between text-sm text-gray-600">
+                      <span>
+                        {item.product?.name} × {item.quantity}
+                      </span>
+                      <span>${formatPrice(item.price * item.quantity)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* PAGINATION */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 mt-10">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              className="p-2 rounded-full hover:bg-gray-100 transition"
+            >
+              <FaLongArrowAltLeft />
+            </button>
+
+            <span className="text-sm text-gray-500">
+              {page} / {totalPages}
+            </span>
+
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              className="p-2 rounded-full hover:bg-gray-100 transition"
+            >
+              <FaLongArrowAltRight />
+            </button>
           </div>
-
-          {/* PASSWORD BLOCK */}
-          <div className="border-t border-gray-300 pt-6 space-y-4">
-            <h2 className="font-semibold">Change Password</h2>
-
-            <input
-              name="currentPassword"
-              type="password"
-              placeholder="Current Password"
-              value={form.currentPassword}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3"
-            />
-
-            <input
-              name="newPassword"
-              type="password"
-              placeholder="New Password"
-              value={form.newPassword}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3"
-            />
-          </div>
-
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg px-4 py-3 text-sm">
-              {error}
-            </div>
-          )}
-
-          {success && (
-            <div className="bg-green-50 border border-green-200 text-green-600 rounded-lg px-4 py-3 text-sm">
-              Profile updated successfully!
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-indigo-700 text-white rounded-full"
-          >
-            {loading ? 'Saving...' : 'Save'}
-          </button>
-        </form>
+        )}
       </div>
     </section>
   )

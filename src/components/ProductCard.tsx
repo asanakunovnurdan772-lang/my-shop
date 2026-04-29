@@ -24,11 +24,12 @@ export default function ProductCard({ product }: Props) {
         {/* IMAGE */}
         <div className="relative w-full h-52 rounded-xl overflow-hidden border border-yellow-500/10 bg-black/40">
           {typeof product.mainPhoto !== 'number' && product.mainPhoto?.url && (
-            <Link href={`/product/${product.id}`}>
+            <Link href={`/products/${product.id}`}>
               <Image
                 src={product.mainPhoto.url}
                 alt={product.name}
                 fill
+                sizes="(max-width: 768px) 100vw, 25vw"
                 className="object-contain scale-105 group-hover:scale-110 group-hover:rotate-1 transition duration-700 ease-out"
               />
             </Link>
@@ -38,7 +39,7 @@ export default function ProductCard({ product }: Props) {
         {/* TITLE */}
         <div className="space-y-2">
           <Link
-            href={`/product/${product.id}`}
+            href={`/products/${product.id}`}
             className="block text-yellow-100 font-semibold text-lg leading-snug line-clamp-2 hover:text-yellow-300 transition"
           >
             {product.name}
@@ -66,7 +67,16 @@ export default function ProductCard({ product }: Props) {
           </div>
 
           {product.inStock ? (
-            <AddToCartButton id={product.id} title={product.name} price={product.price} />
+            <AddToCartButton
+              id={product.id}
+              title={product.name}
+              price={product.price}
+              image={
+                typeof product.mainPhoto !== 'number' && product.mainPhoto?.url
+                  ? product.mainPhoto.url
+                  : ''
+              }
+            />
           ) : (
             <span className="inline-block text-sm px-3 py-1 rounded-full border border-yellow-500/30 text-yellow-500/60 bg-black/40 backdrop-blur">
               Out of stock

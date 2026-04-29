@@ -82,7 +82,7 @@ export const getAboutUsPage = async () => {
 
 export const getDeliveryPolicyPage = async () => {
   const res = await payload.findGlobal({
-    slug: 'delivery-policy',
+    slug: 'delivery',
     depth: 2,
   })
 
